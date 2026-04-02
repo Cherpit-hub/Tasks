@@ -22,7 +22,7 @@ namespace LocatorsForWebElements
         [InlineData("C#", "Poland")]
         [InlineData("Java", "Ukraine")]
         public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage,string country)
-        {   // Arrange
+        {   
             WebDriver driver = new ChromeDriver(_options);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             var _careersLocator = By.LinkText("Careers");
@@ -35,8 +35,10 @@ namespace LocatorsForWebElements
             var _SearchButtonLocator = By.XPath("//button[@type='submit' and contains(@name,'submit_search_box')]");
             var _ResultLocator = By.XPath("//div[contains(@data-testid,'accordion-section-container')]");
             var _ResultExtendedLocator = By.XPath($"//div[contains(@data-testid, 'categories-container')]//descendant::div[contains(text(),'{programminglanguage}')]");
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-            // Act
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3))
+            {
+                PollingInterval = TimeSpan.FromMilliseconds(500)
+            };
             try
             {
                 driver.Navigate().GoToUrl(_url);
@@ -44,18 +46,45 @@ namespace LocatorsForWebElements
                 driver.FindElement(_StartButtonLocator).Click();
                 driver.FindElement(_SearchFieldLocator).SendKeys(programminglanguage);
                 driver.FindElement(_CountryFieldCleanerLocator).Click();
-                driver.FindElement(_CountryFieldLocator).Click();
-                var element = driver.FindElement(_CountryOptionLocator);
-                wait.Until(d => element);
-                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'start'});", element);
-                element.Click();
+                var countryfield = driver.FindElement(_CountryFieldLocator);
+                wait.Until(d =>
+                {
+                    try
+                    {
+                        countryfield.Click();
+                        var element = driver.FindElement(_CountryOptionLocator);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'start'});", element);
+                        element.Click();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException)
+                        {
+                            return false;
+                        }
+                        else throw;
+                    }
+                });
                 driver.FindElement(_RadioButtonRemoteLocator).Click();
                 driver.FindElement(_SearchButtonLocator).Click();
-                var element2 = driver.FindElement(_ResultLocator);
-                wait.Until(d => element2);
-                element2.Click();
                 IWebElement revealed = driver.FindElement(_ResultExtendedLocator);
-                wait.Until(d => revealed.Displayed);
+                wait.Until(d =>
+                {
+                    try
+                    {
+                        driver.FindElement(_ResultLocator).Click();
+                        return revealed.Displayed;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException)
+                        {
+                            return false;
+                        }
+                        else throw;
+                    }
+                });
                 Assert.Contains(programminglanguage, revealed.Text);
                 driver.Quit();
             }
