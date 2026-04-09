@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LocatorsForWebElements.PageObjects
 {
@@ -15,6 +17,8 @@ namespace LocatorsForWebElements.PageObjects
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
+        //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
+        readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
         public MainPage(IWebDriver driver) : base(driver)
         {
             var config = new ConfigurationBuilder()
@@ -40,6 +44,14 @@ namespace LocatorsForWebElements.PageObjects
         {
             FindElement(_searchButtonLocator).Click();
             return new SearchResultPage(_driver);
+        }
+        public void ClickCodeOfConductLink()
+        {
+            FindElement(_codeOfConductLocator).Click();
+        }
+        public void ScrollToFooter() 
+        {
+            ScrollToElement(_codeOfConductLocator);
         }
     }
 }

@@ -1,5 +1,6 @@
 using LocatorsForWebElements.PageObjects;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -29,8 +30,8 @@ namespace LocatorsForWebElements
         [Theory]
         [InlineData("C#", "Poland")]
         [InlineData("Java", "Ukraine")]
-        public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage,string country)
-        {   
+        public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage, string country)
+        {
             try
             {
                 InitializeChromeWebDriver();
@@ -50,7 +51,7 @@ namespace LocatorsForWebElements
                 throw;
             }
 
-            }
+        }
         private void NavigateToMainPage()
         {
             _mainPage = new MainPage(_driver);
@@ -99,5 +100,73 @@ namespace LocatorsForWebElements
             select element;
             return filteredElements;
         }
+        [Theory]
+        [InlineData("Code-Of-Conduct_01_26.pdf")]
+        public void Task3ValidateDownloadFunctionWorksAsExpected(string nameOfFile)
+        {
+            try
+            {
+                InitializeChromeWebDriver();
+                NavigateToMainPage();
+                _mainPage.ScrollToFooter();
+                _mainPage.ClickCodeOfConductLink();
+                Assert.True(IsFileDownloaded(nameOfFile));
+                _driver.Quit();
+            }
+            catch (Exception)
+            {
+                _driver.Quit();
+                throw;
+            }
+        }
+        public bool IsFileDownloaded(string fileName)
+        {
+            var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            var filePath = Path.Combine(downloadPath, fileName);
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+            {
+                PollingInterval = TimeSpan.FromMilliseconds(500)
+            };
+            return wait.Until(d =>
+            {
+                try
+                {
+                    return File.Exists(filePath);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        return false;
+                    }
+                    else throw;
+                }
+            });
+        }
+        //    _driver.Navigate().GoToUrl("chrome://downloads/");
+        //    var _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
+        //    {
+        //        PollingInterval = TimeSpan.FromMilliseconds(500)
+        //    };
+        //    _wait.Until(d =>
+        //    {
+        //        try
+        //        {
+        //            var shadowRoot = _driver.FindElement(By.CssSelector("body > downloads-manager"))
+        //                .GetShadowRoot().FindElement(By.CssSelector("#list>"))
+        //                .GetShadowRoot().FindElement(By.CssSelector("#fileLink"));
+        //            return shadowRoot.Text.Contains(fileName);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            if (ex is StaleElementReferenceException || ex is NoSuchElementException)
+        //            {
+        //                return false;
+        //            }
+        //            else throw;
+        //        }
+        //    });
+        //    return true;
+        //}
     }
 }
