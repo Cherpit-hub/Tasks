@@ -41,3 +41,24 @@ Close the browser
 
 
 
+Tasks #1 & #2:
+Refactor tasks created for previous module to use PageObject pattern to abstract any page information away from the actual.
+Precondition: Execute tests cases manually before creating automated tests. Make all tests parameterized to practice Data Driven approach.
+
+
+Task #3. Validate file download function works as expected:
+Create a Chrome instance 2. Navigate to https://www.epam.com/
+Scroll down to the page footer
+Click on “Code of Ethical Conduct (PDF)” in “Policies” section
+Wait till file is downloaded
+Validate that file “Code-Of-Conduct_01_26.pdf” downloaded (use name of the file as a parameter)
+Close the browser
+
+Task #4. Validate title of the article matches with title in carousel:
+Create a Chrome instance 2. Navigate to https://www.epam.com/
+Select “Insights” from the top menu
+Swipe a carousel two or more times
+Note the name of article
+Click on “Read More” (or similar) button
+Validate that the name of article matches with the noted above
+Close the browsers.
