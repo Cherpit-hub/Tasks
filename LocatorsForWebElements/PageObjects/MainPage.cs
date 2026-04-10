@@ -19,6 +19,7 @@ namespace LocatorsForWebElements.PageObjects
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
         //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
         readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
+        readonly By _insightLocator = By.PartialLinkText("Insight");
         public MainPage(IWebDriver driver) : base(driver)
         {
             var config = new ConfigurationBuilder()
@@ -49,9 +50,14 @@ namespace LocatorsForWebElements.PageObjects
         {
             FindElement(_codeOfConductLocator).Click();
         }
-        public void ScrollToFooter() 
+        public void ScrollToFooter()
         {
             ScrollToElement(_codeOfConductLocator);
+        }
+        public InsightPage ClickInsightLink()
+        {
+            FindElement(_insightLocator).Click();
+            return new InsightPage(_driver);
         }
     }
 }

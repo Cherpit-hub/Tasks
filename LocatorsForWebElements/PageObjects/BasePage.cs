@@ -20,7 +20,7 @@ namespace LocatorsForWebElements.PageObjects
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
             {
-                PollingInterval = TimeSpan.FromMilliseconds(500)
+                PollingInterval = TimeSpan.FromMilliseconds(900)
             };
         }
 

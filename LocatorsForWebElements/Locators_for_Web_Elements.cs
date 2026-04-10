@@ -17,6 +17,8 @@ namespace LocatorsForWebElements
         private CareersPage _careersPage = null!;
         private JobSearchPage _jobSearchPage = null!;
         private SearchResultPage _searchResultPage = null!;
+        private InsightPage _insightPage = null!;
+        private InsightArticlePage _insightArticlePage = null!;
         public Locators_For_Web_Elements()
         {
             _options.AddArgument("--start-maximized");
@@ -39,6 +41,7 @@ namespace LocatorsForWebElements
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
                 _jobSearchPage.EnterProgrammingLanguageIntoSearchField(programminglanguage);
+                _jobSearchPage.ClearCountryField();
                 _jobSearchPage.SelectCountry(country);
                 _jobSearchPage.ClickRemotePositionRadioButton();
                 _jobSearchPage.ClickSearchButton();
@@ -142,6 +145,46 @@ namespace LocatorsForWebElements
                     else throw;
                 }
             });
+        }
+        [Fact]
+        public void Task4ValidatetitleOfInsightArticleMatchesWithTitleOnCarousel()
+        {
+            ReadOnlyCollection<string> expectedTitles;
+            string actualTitle;
+            try
+            {
+                InitializeChromeWebDriver();
+                NavigateToMainPage();
+                NavigateToInsightPage();
+                _insightPage.ClickCarouselRightButton();
+                expectedTitles = _insightPage.GetInsightArticles();
+                _insightArticlePage = _insightPage.ClickReadMoreButtonOfFirstInsightArticle();
+                actualTitle = _insightArticlePage.GetArticleTitle();
+                AssertContains(expectedTitles, actualTitle);
+                _driver.Quit();
+            }
+            catch (Exception)
+            {
+                _driver.Quit();
+                throw;
+            }
+        }
+        private void NavigateToInsightPage()
+        {
+            _insightPage = _mainPage.ClickInsightLink();
+        }
+        private static void AssertContains(IEnumerable<string> expectedTitles, string actualTitle)
+        {
+            bool isTitleFound = false;
+            foreach (var title in expectedTitles)
+            {
+                if (actualTitle.Contains(title, StringComparison.OrdinalIgnoreCase))
+                {
+                    isTitleFound = true;
+                    break;
+                }
+            }
+            Assert.True(isTitleFound, $"Expected title was not found in the actual title. Actual title: {actualTitle}");
         }
         //    _driver.Navigate().GoToUrl("chrome://downloads/");
         //    var _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))

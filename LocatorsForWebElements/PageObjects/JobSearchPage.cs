@@ -34,11 +34,44 @@ namespace LocatorsForWebElements.PageObjects
 
         public void EnterProgrammingLanguageIntoSearchField(string programminglanguage)
         {
-            FindElement(_SearchFieldLocator).SendKeys(programminglanguage + Keys.Enter);
+            _wait.Until(d =>
+            {
+                try
+                {
+                    FindElement(_SearchFieldLocator).SendKeys(programminglanguage + Keys.Enter);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException || ex is ElementNotInteractableException)
+                    {
+                        return false;
+                    }
+                    else throw;
+                }
+            });
+        }
+        public void ClearCountryField()
+        {
+            _wait.Until(d =>
+            {
+                try
+                {
+                    FindElement(_CountryFieldCleanerLocator).Click();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException || ex is ElementNotInteractableException)
+                    {
+                        return false;
+                    }
+                    else throw;
+                }
+            });
         }
         public void SelectCountry(string country)
         {
-            FindElement(_CountryFieldCleanerLocator).Click();
             _wait.Until(d =>
             {
                 try
