@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class BasePage
+    public class BasePage
     {
         protected readonly IWebDriver _driver;
         protected readonly WebDriverWait _wait;

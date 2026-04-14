@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class JobSearchPage : BasePage
+    public class JobSearchPage : BasePage
     {
         readonly By _SearchFieldLocator = By.Name("search");
         readonly By _CountryFieldLocator = By.XPath("//div[@data-testid = 'country-dropdown']//input[contains(@class, 'input')]");

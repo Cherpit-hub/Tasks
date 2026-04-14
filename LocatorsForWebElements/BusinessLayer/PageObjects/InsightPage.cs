@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class InsightPage : BasePage
+    public class InsightPage : BasePage
     {
         readonly By _InsightArticleTitleLocator = By.XPath("//div[starts-with(@class,'owl-item')][contains(@class,'active')]//span[contains(@class,'60')]//span[string-length (text())>0]");
         readonly By _InsighArticleReadMoreButtonLocator = By.XPath("//div[starts-with(@class,'owl-item')][contains(@class,'active')]//a[contains(text(),'Read')]");

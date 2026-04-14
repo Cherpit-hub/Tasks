@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class CareersPage : BasePage
+    public class CareersPage : BasePage
     {
         readonly By startButtonLocator = By.ClassName("pinned-button-ui-23");
         public CareersPage(IWebDriver driver) : base(driver)

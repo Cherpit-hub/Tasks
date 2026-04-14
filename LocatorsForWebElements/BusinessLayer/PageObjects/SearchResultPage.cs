@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class SearchResultPage : BasePage
+    public class SearchResultPage : BasePage
     {
         readonly By _articleLocator = By.TagName("article");
 

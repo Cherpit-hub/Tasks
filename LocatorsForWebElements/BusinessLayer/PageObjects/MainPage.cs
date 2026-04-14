@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace LocatorsForWebElements.PageObjects
+namespace LocatorsForWebElements.BusinessLayer.PageObjects
 {
-    internal class MainPage : BasePage
+    public class MainPage : BasePage
     {
         private readonly string _url;
         readonly By _careersLocator = By.LinkText("Careers");
@@ -18,7 +18,7 @@ namespace LocatorsForWebElements.PageObjects
         readonly By _searchFieldLocator = By.Id("new_form_search");
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
         //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
-        readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
+        readonly By _codeOfConductLocator = By.XPath("//div[contains(@class,'footer')]//a[contains(text(),'Ethical')]");
         readonly By _insightLocator = By.PartialLinkText("Insight");
         public MainPage(IWebDriver driver) : base(driver)
         {

@@ -1,32 +1,19 @@
-using LocatorsForWebElements.PageObjects;
-using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using LocatorsForWebElements.BusinessLayer.PageObjects;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
-
-namespace LocatorsForWebElements
+using LocatorsForWebElements.CoreLayer;
+namespace LocatorsForWebElements.TestLayer
 {
-    public class Locators_For_Web_Elements
+    public class Tests : BaseTest
     {
-        private readonly ChromeOptions _options = new ChromeOptions();
-        private IWebDriver _driver = null!;
-        private MainPage _mainPage = null!;
         private CareersPage _careersPage = null!;
         private JobSearchPage _jobSearchPage = null!;
         private SearchResultPage _searchResultPage = null!;
         private InsightPage _insightPage = null!;
         private InsightArticlePage _insightArticlePage = null!;
-        public Locators_For_Web_Elements()
+        public Tests() : base()
         {
-            _options.AddArgument("--start-maximized");
-            _options.AddArgument("--incognito");
-        }
-        private void InitializeChromeWebDriver()
-        {
-            _driver = new ChromeDriver(_options);
         }
 
         [Theory]
@@ -36,7 +23,7 @@ namespace LocatorsForWebElements
         {
             try
             {
-                InitializeChromeWebDriver();
+                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
@@ -77,7 +64,7 @@ namespace LocatorsForWebElements
             //* PartialLinkText
             try
             {
-                InitializeChromeWebDriver();
+                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 _mainPage.ClickSearchButton();
                 _mainPage.EnterSearchQuery(searchQuery);
@@ -109,7 +96,7 @@ namespace LocatorsForWebElements
         {
             try
             {
-                InitializeChromeWebDriver();
+                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
@@ -153,7 +140,7 @@ namespace LocatorsForWebElements
             string actualTitle;
             try
             {
-                InitializeChromeWebDriver();
+                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 NavigateToInsightPage();
                 _insightPage.ClickCarouselRightButton();
