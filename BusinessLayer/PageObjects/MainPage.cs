@@ -1,18 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CoreLayer;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
-namespace LocatorsForWebElements.BusinessLayer.PageObjects
+namespace BusinessLayer.PageObjects
 {
     public class MainPage : BasePage
     {
-        private readonly string _url;
         readonly By _careersLocator = By.LinkText("Careers");
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
@@ -22,11 +14,7 @@ namespace LocatorsForWebElements.BusinessLayer.PageObjects
         readonly By _insightLocator = By.PartialLinkText("Insight");
         public MainPage(IWebDriver driver) : base(driver)
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            _url = config["ApplicationUrl"] ?? string.Empty;
-            NavigateTo(_url);
+            NavigateTo(Configuration.AppUrl);
         }
         public CareersPage ClickCareersLink()
         {

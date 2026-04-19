@@ -1,18 +1,17 @@
-﻿using LocatorsForWebElements.BusinessLayer.PageObjects;
-using LocatorsForWebElements.CoreLayer;
+﻿using BusinessLayer.PageObjects;
+using CoreLayer;
 using log4net;
 using log4net.Config;
-using log4net.Repository.Hierarchy;
 using OpenQA.Selenium;
-using static LocatorsForWebElements.CoreLayer.WebDriverFactory;
+using static CoreLayer.WebDriverFactory;
 
-namespace LocatorsForWebElements.TestLayer
+namespace TestLayer
 {
     public abstract class BaseTest : IDisposable
     {
         public ILog Log
         {
-            get { return LogManager.GetLogger(this.GetType()); }
+            get { return LogManager.GetLogger(GetType()); }
         }
         public IWebDriver _driver;
         public MainPage _mainPage = null!;
@@ -20,13 +19,20 @@ namespace LocatorsForWebElements.TestLayer
         {
             XmlConfigurator.Configure(new FileInfo("Log.config"));
             var browserType = (BrowserType)Enum.Parse(typeof(BrowserType), Configuration.BrowserType);
-            _driver = WebDriverFactory.CreateWebDriver(browserType);
+            _driver = CreateWebDriver(browserType);
         }
 
         public void Dispose()
         {
-            _driver.Quit();
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _driver.Quit();
+            }
         }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
-namespace LocatorsForWebElements.CoreLayer
+namespace CoreLayer
 {
     static public class Configuration
     {
@@ -17,7 +13,7 @@ namespace LocatorsForWebElements.CoreLayer
 
         static Configuration() {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 

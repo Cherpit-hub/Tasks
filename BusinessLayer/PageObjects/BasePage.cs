@@ -1,12 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.BusinessLayer.PageObjects
+namespace BusinessLayer.PageObjects
 {
     public class BasePage
     {
@@ -20,7 +15,7 @@ namespace LocatorsForWebElements.BusinessLayer.PageObjects
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
             {
-                PollingInterval = TimeSpan.FromMilliseconds(900)
+                PollingInterval = TimeSpan.FromMilliseconds(700)
             };
         }
 

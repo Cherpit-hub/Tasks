@@ -7,6 +7,7 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <Configurations>Debug;Release;Firefox;Chrome</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,16 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\CoreLayer\CoreLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CoreLayer\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="CoreLayer\Log.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,9 @@
-using LocatorsForWebElements.BusinessLayer.PageObjects;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
-using LocatorsForWebElements.CoreLayer;
-namespace LocatorsForWebElements.TestLayer
+using BusinessLayer.PageObjects;
+
+namespace TestLayer
 {
     public class Tests : BaseTest
     {
@@ -23,7 +23,7 @@ namespace LocatorsForWebElements.TestLayer
         {
             try
             {
-                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
+                Log.Info($"Starting test with programming language: {programminglanguage} and country: {country}");
                 NavigateToMainPage();
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
@@ -64,7 +64,6 @@ namespace LocatorsForWebElements.TestLayer
             //* PartialLinkText
             try
             {
-                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 _mainPage.ClickSearchButton();
                 _mainPage.EnterSearchQuery(searchQuery);
@@ -96,7 +95,6 @@ namespace LocatorsForWebElements.TestLayer
         {
             try
             {
-                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
@@ -140,7 +138,6 @@ namespace LocatorsForWebElements.TestLayer
             string actualTitle;
             try
             {
-                WebDriverFactory.CreateWebDriver(WebDriverFactory.BrowserType.Chrome);
                 NavigateToMainPage();
                 NavigateToInsightPage();
                 _insightPage.ClickCarouselRightButton();

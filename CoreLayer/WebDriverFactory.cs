@@ -3,7 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 
-namespace LocatorsForWebElements.CoreLayer
+namespace CoreLayer
 {
     public static class WebDriverFactory
     {

@@ -1,13 +1,8 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.BusinessLayer.PageObjects
+namespace BusinessLayer.PageObjects
 {
     public class InsightPage : BasePage
     {
