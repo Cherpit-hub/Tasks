@@ -2,6 +2,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
 using BusinessLayer.PageObjects;
+using CoreLayer;
 
 namespace TestLayer
 {
@@ -33,11 +34,11 @@ namespace TestLayer
                 _jobSearchPage.ClickRemotePositionRadioButton();
                 _jobSearchPage.ClickSearchButton();
                 Assert.Contains(programminglanguage, _jobSearchPage.FindRelevantJobOffer(programminglanguage).Text);
-                _driver.Quit();
             }
-            catch (Exception)
+            catch (Xunit.Sdk.ContainsException ex)
             {
-                _driver.Quit();
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Error($"Test failed with programming language: {programminglanguage} and country: {country}, Exception message: {ex.Message}");
                 throw;
             }
 
@@ -69,11 +70,17 @@ namespace TestLayer
                 _mainPage.EnterSearchQuery(searchQuery);
                 ClickFindButton();
                 Assert.Equal(ResultsThatContainSearchKeyWord(searchQuery, _searchResultPage.GetSearchResults()).Count(), _searchResultPage.GetSearchResults().Count);
-                _driver.Quit();
+            }
+            catch (Xunit.Sdk.EqualException ex)
+            {
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Error($"Assertion failed with search query: {searchQuery}, Exception message: {ex.Message}");
+                throw;
             }
             catch (Exception)
             {
-                _driver.Quit();
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Error($"Test failed with search query: {searchQuery}");
                 throw;
             }
         }
@@ -99,11 +106,11 @@ namespace TestLayer
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
                 Assert.True(IsFileDownloaded(nameOfFile));
-                _driver.Quit();
             }
-            catch (Exception)
+            catch (Xunit.Sdk.TrueException ex)
             {
-                _driver.Quit();
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Error($"Assertion failed for file: {nameOfFile}, Exception message: {ex.Message}");
                 throw;
             }
         }
@@ -145,11 +152,11 @@ namespace TestLayer
                 _insightArticlePage = _insightPage.ClickReadMoreButtonOfFirstInsightArticle();
                 actualTitle = _insightArticlePage.GetArticleTitle();
                 AssertContains(expectedTitles, actualTitle);
-                _driver.Quit();
             }
-            catch (Exception)
+            catch (Xunit.Sdk.TrueException ex)
             {
-                _driver.Quit();
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Error($"Assertion failed for Task4 article title, Exception message: {ex.Message}");
                 throw;
             }
         }
