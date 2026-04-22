@@ -15,6 +15,7 @@ namespace TestLayer
         private InsightArticlePage _insightArticlePage = null!;
         public Tests() : base()
         {
+            SetLogLevel("INFO"); // Set log level to INFO by default, can be overridden by passing a different level as an argument
         }
 
         [Theory]
@@ -24,7 +25,7 @@ namespace TestLayer
         {
             try
             {
-                Log.Info($"Starting test with programming language: {programminglanguage} and country: {country}");
+                Log.Info($"Starting test Task1 with programming language: {programminglanguage} and country: {country}");
                 NavigateToMainPage();
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
@@ -38,21 +39,30 @@ namespace TestLayer
             catch (Xunit.Sdk.ContainsException ex)
             {
                 BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Test failed with programming language: {programminglanguage} and country: {country}, Exception message: {ex.Message}");
+                Log.Error($"Test Task1 failed with programming language: {programminglanguage} and country: {country}, Exception message: {ex.Message}");
+                throw;
+            }
+            catch (Exception)
+            {
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Warn("Test Task1 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
 
         }
         private void NavigateToMainPage()
         {
+            Log.Info("Navigating to main page");
             _mainPage = new MainPage(_driver);
         }
         private void NavigateToCareersPage()
         {
+            Log.Info("Navigating to careers page");
             _careersPage = _mainPage.ClickCareersLink();
         }
         private void NavigateToJobSearchPage()
         {
+            Log.Info("Navigating to job search page");
             _jobSearchPage = _careersPage.ClickJobSearchPageButton();
         }
 
@@ -62,14 +72,15 @@ namespace TestLayer
         [InlineData("Automation")]
         public void Task2ValidateGlobalSearchWorksAsExpected(string searchQuery)
         {
-            //* PartialLinkText
             try
             {
+                Log.Info($"Starting test Task2 with search query: {searchQuery}");
                 NavigateToMainPage();
                 _mainPage.ClickSearchButton();
                 _mainPage.EnterSearchQuery(searchQuery);
                 ClickFindButton();
                 Assert.Equal(ResultsThatContainSearchKeyWord(searchQuery, _searchResultPage.GetSearchResults()).Count(), _searchResultPage.GetSearchResults().Count);
+                Log.Info($"Search results validated successfully for search query: {searchQuery}");
             }
             catch (Xunit.Sdk.EqualException ex)
             {
@@ -80,7 +91,7 @@ namespace TestLayer
             catch (Exception)
             {
                 BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Test failed with search query: {searchQuery}");
+                Log.Warn("Test Task2 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
         }
@@ -106,11 +117,18 @@ namespace TestLayer
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
                 Assert.True(IsFileDownloaded(nameOfFile));
+                Log.Info($"File download validated successfully for file: {nameOfFile}");
             }
             catch (Xunit.Sdk.TrueException ex)
             {
                 BrowserUtils.TakeBrowserScreenshot(_driver);
                 Log.Error($"Assertion failed for file: {nameOfFile}, Exception message: {ex.Message}");
+                throw;
+            }
+            catch (Exception)
+            {
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Warn("Test Task3 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
         }
@@ -149,14 +167,22 @@ namespace TestLayer
                 NavigateToInsightPage();
                 _insightPage.ClickCarouselRightButton();
                 expectedTitles = _insightPage.GetInsightArticles();
+                Log.Info($"Expected titles retrieved from carousel: {string.Join(", ", expectedTitles)}");
                 _insightArticlePage = _insightPage.ClickReadMoreButtonOfFirstInsightArticle();
                 actualTitle = _insightArticlePage.GetArticleTitle();
+                Log.Info($"Actual title retrieved from article page: {actualTitle}");
                 AssertContains(expectedTitles, actualTitle);
             }
             catch (Xunit.Sdk.TrueException ex)
             {
                 BrowserUtils.TakeBrowserScreenshot(_driver);
                 Log.Error($"Assertion failed for Task4 article title, Exception message: {ex.Message}");
+                throw;
+            }
+            catch (Exception)
+            {
+                BrowserUtils.TakeBrowserScreenshot(_driver);
+                Log.Warn("Test Task4 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
         }
@@ -177,30 +203,5 @@ namespace TestLayer
             }
             Assert.True(isTitleFound, $"Expected title was not found in the actual title. Actual title: {actualTitle}");
         }
-        //    _driver.Navigate().GoToUrl("chrome://downloads/");
-        //    var _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
-        //    {
-        //        PollingInterval = TimeSpan.FromMilliseconds(500)
-        //    };
-        //    _wait.Until(d =>
-        //    {
-        //        try
-        //        {
-        //            var shadowRoot = _driver.FindElement(By.CssSelector("body > downloads-manager"))
-        //                .GetShadowRoot().FindElement(By.CssSelector("#list>"))
-        //                .GetShadowRoot().FindElement(By.CssSelector("#fileLink"));
-        //            return shadowRoot.Text.Contains(fileName);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            if (ex is StaleElementReferenceException || ex is NoSuchElementException)
-        //            {
-        //                return false;
-        //            }
-        //            else throw;
-        //        }
-        //    });
-        //    return true;
-        //}
     }
 }

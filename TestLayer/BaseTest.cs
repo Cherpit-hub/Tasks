@@ -19,11 +19,11 @@ namespace TestLayer
         protected BaseTest()
         {
             XmlConfigurator.Configure(new FileInfo("Log.config"));
-            var browserType = (BrowserType)Enum.Parse(typeof(BrowserType), Configuration.BrowserType);
-            _driver = CreateWebDriver(browserType);
+            _driver = CreateWebDriver(Configuration.EnvBrowser ?? Configuration.BrowserType);
+            _driver.Manage().Window.Maximize();
         }
 
-        public static void SetLogLevel(string level)
+        public void SetLogLevel(string level)
         {
             // Get the root logger (or specific logger if needed)
             var hierarchy = (Hierarchy)LogManager.GetRepository();
@@ -54,7 +54,8 @@ namespace TestLayer
                     root.Level = log4net.Core.Level.Off;
                     break;
                 default:
-                    throw new ArgumentException("Unknown log level: " + level);
+                    Log.Warn("Unknown log level: " + level);
+                    break;
             }
             ;
         }

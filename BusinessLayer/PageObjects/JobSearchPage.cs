@@ -140,7 +140,7 @@ namespace BusinessLayer.PageObjects
                 }
                 catch (Exception ex)
                 {
-                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException)
+                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException || ex is NoSuchElementException)
                     {
                         return false;
                     }

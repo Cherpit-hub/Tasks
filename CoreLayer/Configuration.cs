@@ -8,8 +8,7 @@ namespace CoreLayer
         public static string BrowserType { get; private set; }
         public static string AppUrl { get; private set; }
         public static string ChromeOptions { get; private set; }
-        public static string FirefoxOptions { get; private set; }
-        public static string EdgeOptions { get; private set; }
+        public static string EnvBrowser => Environment.GetEnvironmentVariable("Browser")!;
 
         static Configuration() {
             var configuration = new ConfigurationBuilder()
@@ -20,8 +19,6 @@ namespace CoreLayer
             BrowserType = configuration["Browser"] ?? "Chrome";
             AppUrl = configuration["ApplicationUrl"] ?? string.Empty;
             ChromeOptions = configuration["ChromeOptions"] ?? string.Empty;
-            FirefoxOptions = configuration["FirefoxOptions"] ?? string.Empty;
-            EdgeOptions = configuration["EdgeOptions"] ?? string.Empty;
         }
     }
 }
