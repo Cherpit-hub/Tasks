@@ -135,7 +135,10 @@ namespace BusinessLayer.PageObjects
                 {
                     ScrollToElement(_ResultLocator);
                     FindElement(_ResultLocator).Click();
-                    ScrollToElement(SetResultExtendedLocator(programminglanguage));
+                    for (int i = 0; i < 3; i++)
+                    {
+                        ScrollToElement(SetResultExtendedLocator(programminglanguage));
+                    }
                     return revealed.Displayed;
                 }
                 catch (Exception ex)

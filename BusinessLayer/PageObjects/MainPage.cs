@@ -31,8 +31,27 @@ namespace BusinessLayer.PageObjects
         }
         public SearchResultPage ClickSubmitSearchButton()
         {
-            FindElement(_searchButtonLocator).Click();
+            _wait.Until(d =>
+            {
+                try
+                {
+                    FindElement(_searchButtonLocator).Click();
+                    return ElementNotDisplayed(_searchButtonLocator);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is NoSuchElementException || ex is ElementNotInteractableException)
+                    {
+                        return false;
+                    }
+                    else throw;
+                }
+            });
             return new SearchResultPage(_driver);
+        }
+        private bool ElementNotDisplayed(By locator)
+        {
+            return !FindElement(locator).Displayed;
         }
         public void ClickCodeOfConductLink()
         {
