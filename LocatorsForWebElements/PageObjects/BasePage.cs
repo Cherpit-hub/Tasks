@@ -18,9 +18,9 @@ namespace LocatorsForWebElements.PageObjects
 
             _driver = driver ?? throw new ArgumentNullException(nameof(driver));
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
             {
-                PollingInterval = TimeSpan.FromMilliseconds(900)
+                PollingInterval = TimeSpan.FromMilliseconds(1000)
             };
         }
 

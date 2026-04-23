@@ -17,8 +17,7 @@ namespace LocatorsForWebElements.PageObjects
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
-        //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
-        readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
+        readonly By _codeOfConductLocator = By.XPath("//div[contains(@class,'footer')]//a[contains(text(),'Ethical')]");
         readonly By _insightLocator = By.PartialLinkText("Insight");
         public MainPage(IWebDriver driver) : base(driver)
         {
@@ -43,8 +42,27 @@ namespace LocatorsForWebElements.PageObjects
         }
         public SearchResultPage ClickSubmitSearchButton()
         {
-            FindElement(_searchButtonLocator).Click();
+            _wait.Until(d =>
+            {
+                try
+                {
+                    FindElement(_searchButtonLocator).Click();
+                    return ElementNotDisplayed(_searchButtonLocator);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is NoSuchElementException || ex is ElementNotInteractableException)
+                    {
+                        return false;
+                    }
+                    else throw;
+                }
+            });
             return new SearchResultPage(_driver);
+        }
+        private bool ElementNotDisplayed(By locator)
+        {
+            return !FindElement(locator).Displayed;
         }
         public void ClickCodeOfConductLink()
         {
