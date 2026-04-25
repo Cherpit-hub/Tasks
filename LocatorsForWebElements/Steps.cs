@@ -1,28 +1,23 @@
 using LocatorsForWebElements.PageObjects;
-using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
-
-namespace LocatorsForWebElements
+using Reqnroll;
+/*
+namespace LocatorsForWebElements.Steps
 {
-    public class Locators_For_Web_Elements
+    [Binding]
+    public class Steps
     {
-        private readonly ChromeOptions _options = new ChromeOptions();
-        private IWebDriver _driver = null!;
-        private MainPage _mainPage = null!;
         private CareersPage _careersPage = null!;
         private JobSearchPage _jobSearchPage = null!;
         private SearchResultPage _searchResultPage = null!;
         private InsightPage _insightPage = null!;
         private InsightArticlePage _insightArticlePage = null!;
-        public Locators_For_Web_Elements()
+        public Steps()
         {
-            _options.AddArgument("--start-maximized");
-            _options.AddArgument("--incognito");
+
         }
         private void InitializeChromeWebDriver()
         {
@@ -54,10 +49,6 @@ namespace LocatorsForWebElements
                 throw;
             }
 
-        }
-        private void NavigateToMainPage()
-        {
-            _mainPage = new MainPage(_driver);
         }
         private void NavigateToCareersPage()
         {
@@ -213,3 +204,4 @@ namespace LocatorsForWebElements
         //}
     }
 }
+*/

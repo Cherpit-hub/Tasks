@@ -20,6 +20,7 @@ namespace LocatorsForWebElements.PageObjects
         //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
         readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
         readonly By _insightLocator = By.PartialLinkText("Insight");
+        readonly By _servicesLocator = By.LinkText("Services");
         public MainPage(IWebDriver driver) : base(driver)
         {
             var config = new ConfigurationBuilder()
@@ -58,6 +59,17 @@ namespace LocatorsForWebElements.PageObjects
         {
             FindElement(_insightLocator).Click();
             return new InsightPage(_driver);
+        }
+        public void HoverOverServicesLink()
+        {
+            var servicesElement = FindElement(_servicesLocator);
+            var actions = new Actions(_driver);
+            actions.MoveToElement(servicesElement).Perform();
+        }
+        public ServicesOptionPage ClickOnServicesCategoryLink(string linkText)
+        {
+            FindElement(By.LinkText(linkText)).Click();
+            return new ServicesOptionPage(_driver);
         }
     }
 }
