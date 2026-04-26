@@ -26,7 +26,7 @@ namespace LocatorsForWebElements.PageObjects
             }
             return articleTitles.AsReadOnly();
         }
-        public void ClickCarouselRightButton()
+        public void SpinCarouselMultipleTimes()
         {
             Random random = new Random();
             var counter = random.Next(2, 5);

@@ -17,21 +17,22 @@ namespace LocatorsForWebElements.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class ValidationOfNavigationToServicesFeature : object, global::Xunit.IClassFixture<ValidationOfNavigationToServicesFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class JobSearchFeature : object, global::Xunit.IClassFixture<JobSearchFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Validation of Navigation to services", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "JobSearch", "A user should be able to navigate from the main page\r\nof website to the job searc" +
+                "h page and able to search for desired position", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Tests.feature"
+#line 1 "JobSearch.feature"
 #line hidden
         
-        public ValidationOfNavigationToServicesFeature(ValidationOfNavigationToServicesFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public JobSearchFeature(JobSearchFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -105,7 +106,7 @@ namespace LocatorsForWebElements.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Tests.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/JobSearch.feature.ndjson", 4);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -133,13 +134,13 @@ namespace LocatorsForWebElements.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Navigation to services options")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Validation of Navigation to services")]
-        [global::Xunit.TraitAttribute("Description", "Navigation to services options")]
+        [global::Xunit.SkippableTheoryAttribute(DisplayName="Searching for a job")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "JobSearch")]
+        [global::Xunit.TraitAttribute("Description", "Searching for a job")]
         [global::Xunit.TraitAttribute("Category", "tag1")]
-        [global::Xunit.InlineDataAttribute("Generative AI", "0", new string[0])]
-        [global::Xunit.InlineDataAttribute("Responsible AI", "1", new string[0])]
-        public async global::System.Threading.Tasks.Task NavigationToServicesOptions(string service_Name, string @__pickleIndex, string[] exampleTags)
+        [global::Xunit.InlineDataAttribute("C#", "Poland", "0", new string[0])]
+        [global::Xunit.InlineDataAttribute("Java", "Ukraine", "1", new string[0])]
+        public async global::System.Threading.Tasks.Task SearchingForAJob(string programmingLanguage, string country, string @__pickleIndex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "tag1"};
@@ -149,12 +150,13 @@ namespace LocatorsForWebElements.Features
             }
             string[] tagsOfScenario = @__tags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("service_name", service_Name);
+            argumentsOfScenario.Add("Programming language", programmingLanguage);
+            argumentsOfScenario.Add("Country", country);
             string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Navigation to services options", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Searching for a job", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -164,20 +166,32 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
- await testRunner.GivenAsync("I navigate to the Epam website", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 8
- await testRunner.WhenAsync("I click on the Services link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.GivenAsync("I am on the homepage", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 9
- await testRunner.AndAsync(string.Format("Click on the \'{0}\' link", service_Name), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I click on Careers link", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 10
- await testRunner.ThenAsync("It should have the correct title", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.WhenAsync("T click Start your search here on Careers page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 11
- await testRunner.AndAsync("have section Our related Expertise displayed on the page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.ThenAsync("Jobs page should load", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 12
+ await testRunner.WhenAsync(string.Format("I Enter \'{0}\' into the Search by role or keyword field", programmingLanguage), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 13
+ await testRunner.AndAsync(string.Format("I Select \'{0}\' in Choose your country field", country), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 14
+ await testRunner.AndAsync("I Select Remote option", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 15
+ await testRunner.AndAsync("Click Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+ await testRunner.ThenAsync(string.Format("The latest element of the list should contain \'{0}\'.", programmingLanguage), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -190,12 +204,12 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await ValidationOfNavigationToServicesFeature.FeatureSetupAsync();
+                await JobSearchFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await ValidationOfNavigationToServicesFeature.FeatureTearDownAsync();
+                await JobSearchFeature.FeatureTearDownAsync();
             }
         }
     }

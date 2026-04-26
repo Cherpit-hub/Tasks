@@ -17,7 +17,6 @@ namespace LocatorsForWebElements.PageObjects
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
-        //readonly By _codeOfConductLocator = By.LinkText("Code of Ethical Conduct (PDF)");//
         readonly By _codeOfConductLocator = By.CssSelector(".policies-right > li:nth-child(5) > a:nth-child(1)");
         readonly By _insightLocator = By.PartialLinkText("Insight");
         readonly By _servicesLocator = By.LinkText("Services");
@@ -34,7 +33,7 @@ namespace LocatorsForWebElements.PageObjects
             FindElement(_careersLocator).Click();
             return new CareersPage(_driver);
         }
-        public void ClickSearchButton()
+        public void ClickMagnifierButton()
         {
             FindElement(_magnifiericonLocator).Click();
         }

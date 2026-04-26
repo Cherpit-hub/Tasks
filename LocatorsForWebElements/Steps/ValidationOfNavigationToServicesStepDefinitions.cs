@@ -10,28 +10,21 @@ namespace LocatorsForWebElements.Steps
     [Binding]
     public class ValidationOfNavigationToServicesStepDefinitions
     {
-        private readonly ChromeOptions _options = new ChromeOptions();
-        private IWebDriver _driver = null!;
-        private MainPage _mainPage = null!;
+        private IWebDriver _driver;
+        private MainPage _mainPage;
         private ServicesOptionPage _servicesOptionPage = null!;
         private string _services = null!;
-        [BeforeScenario]
-        public void TestSetup()
+        public ValidationOfNavigationToServicesStepDefinitions(ScenarioContext scenarioContext) 
         {
-            _options.AddArgument("--start-maximized");
-            _options.AddArgument("--incognito");
-            _driver = new ChromeDriver(_options);
-        }
-        [AfterScenario]
-        public void TestTearDown()
-        {
-            _driver.Quit();
+            _driver = (IWebDriver)scenarioContext["WebDriver"];
+            _mainPage = (MainPage)scenarioContext["MainPage"];
+
         }
 
-        [Given("I navigate to the Epam website")]
-        public void GivenINavigateToTheEpamWebsite()
+        [Given("I am on the homepage")]
+        public void GivenIAmOnTheHomepage()
         {
-            NavigateToMainPage();
+            //Hooks put us on a homepage
         }
 
         [When("I click on the Services link")]
@@ -57,12 +50,6 @@ namespace LocatorsForWebElements.Steps
         public void ThenHaveSectionDisplayedOnThePage()
         {
             Assert.True(_servicesOptionPage.IsSectionDisplayed());
-        }
-
-
-        private void NavigateToMainPage()
-        {
-            _mainPage = new MainPage(_driver);
         }
 
     }
