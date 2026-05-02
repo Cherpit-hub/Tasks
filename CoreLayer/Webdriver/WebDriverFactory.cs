@@ -13,14 +13,18 @@ namespace CoreLayer.Webdriver
                 case "chrome":
                     {
                         var service = ChromeDriverService.CreateDefaultService();
-                        ChromeOptions options = new();
+                        var options = new ChromeOptions();
                         options.AddArgument("--start-maximized");
                         options.AddArgument("--incognito");
-
+                        options.AddArgument("--headless");
                         return new ChromeDriver(service, options);
                     }
                 case "firefox":
-                    return new FirefoxDriver();
+                    var firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.AddArgument("--start-maximized");
+                    firefoxOptions.AddArgument("--incognito");
+                    firefoxOptions.AddArgument("--headless");
+                    return new FirefoxDriver(firefoxOptions);
                 default:
                     throw new ArgumentException("Unknown browser type: " + browserType);
             }

@@ -1,0 +1,65 @@
+name: API UI Test pipeline
+
+on:   
+  pull_request: 
+    branches:  
+      - CICD 
+  schedule:
+  - cron: '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch:
+   inputs:
+    browser:
+      description: 'Browser to run tests on'
+      required: true
+      type: choice
+      default: Chrome
+      options:
+        - Chrome
+        - Firefox
+  
+jobs:  
+    build:  
+        name: Build and tests 
+        runs-on: ubuntu-latest 
+        env: 
+          Browser: ${{ github.event.inputs.browser }}
+        steps: 
+        - name: Checkout code 
+          uses: actions/checkout@v6 
+
+        - name: Setup .NET 
+          uses: actions/setup-dotnet@v5 
+          with:  
+            dotnet-version: '8.0.x' 
+ 
+        - name: Install Browser
+          run: | 
+            if [ "$Browser" = "Chrome" ]; then
+              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+              sudo dpkg -i google-chrome-stable_current_amd64.deb
+              rm google-chrome-stable_current_amd64.deb
+            elif [ "$Browser" = "Firefox" ]; then
+              sudo apt-get update
+              sudo apt-get install -y firefox
+            fi
+
+        - name: Restore dependencies 
+          run: dotnet restore 
+          working-directory: .
+
+        - name: Build 
+          run: dotnet build --no-restore 
+          working-directory: .
+
+        - name: Run API tests 
+          run: dotnet test --no-build --filter Category=API
+          working-directory: .
+
+        - name: Run UI tests
+          run: dotnet test --no-build --filter Category=UI
+          working-directory: .
+
+        - name: Artifacts
+          uses: actions/upload-artifact@v4
+          with:
+             name: test-results

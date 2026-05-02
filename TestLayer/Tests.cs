@@ -26,6 +26,7 @@ namespace TestLayer
         }
 
         [Theory]
+        [Trait("Category", "UI")]
         [InlineData("C#", "Poland")]
         [InlineData("Java", "Ukraine")]
         public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage, string country)
@@ -74,6 +75,7 @@ namespace TestLayer
         }
 
         [Theory]
+        [Trait("Category", "UI")]
         [InlineData("BLOCKCHAIN")]
         [InlineData("Cloud")]
         [InlineData("Automation")]
@@ -115,6 +117,7 @@ namespace TestLayer
             return filteredElements;
         }
         [Theory]
+        [Trait("Category", "UI")]
         [InlineData("Code-Of-Conduct_01_26.pdf")]
         public void Task3ValidateDownloadFunctionWorksAsExpected(string nameOfFile)
         {
@@ -164,6 +167,7 @@ namespace TestLayer
             });
         }
         [Fact]
+        [Trait("Category", "UI")]
         public void Task4ValidatetitleOfInsightArticleMatchesWithTitleOnCarousel()
         {
             ReadOnlyCollection<string> expectedTitles;
