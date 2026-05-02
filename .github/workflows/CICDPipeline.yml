@@ -5,7 +5,7 @@ on:
     branches:  
       - CICD 
   schedule:
-  - cron: '0 0 * * *' # Runs every day at midnight
+    - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
    inputs:
     browser:
@@ -53,13 +53,23 @@ jobs:
 
         - name: Run API tests 
           run: dotnet test --no-build --filter Category=API
-          working-directory: .
+          working-directory: './TestLayer'
 
         - name: Run UI tests
+          if: '!cancelled()'
           run: dotnet test --no-build --filter Category=UI
-          working-directory: .
+          working-directory: './TestLayer'
 
-        - name: Artifacts
+        - name: Upload test logs
+          if: '!cancelled()'
           uses: actions/upload-artifact@v4
           with:
-             name: test-results
+             name: test-results-logs
+             path: './TestLayer/bin/Debug/net8.0/**/*.log'
+
+        - name: Upload test screenshots
+          if: 'failure()'
+          uses: actions/upload-artifact@v4
+          with:
+             name: test-results-Failure-Screenshots
+             path: './TestLayer/bin/Debug/net8.0/*.png'
