@@ -22,7 +22,7 @@ jobs:
         name: Build and tests 
         runs-on: ubuntu-latest 
         env: 
-          Browser: ${{ github.event.inputs.browser }}
+          Browser: ${{ github.event.inputs.browser || 'Chrome' }}
         steps: 
         - name: Checkout code 
           uses: actions/checkout@v6 
