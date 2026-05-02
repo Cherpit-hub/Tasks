@@ -56,10 +56,12 @@ jobs:
           working-directory: .
 
         - name: Run UI tests
+          if: '!cancelled()'
           run: dotnet test --no-build --filter Category=UI
           working-directory: .
 
         - name: Artifacts
+          if: '!cancelled()'
           uses: actions/upload-artifact@v4
           with:
              name: test-results
