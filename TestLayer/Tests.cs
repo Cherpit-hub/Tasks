@@ -266,8 +266,8 @@ namespace TestLayer
                 var response = await _apiClient.GetUsersAsync();
 
                 Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK && ResponseNoErrorMessage(response), $"API call was not successful. Status code: {response.StatusCode}, Error message: {response.ErrorMessage}");
-                Assert.True(response.ContentHeaders.Any(h => h.Name.Equals("Content-Type", StringComparison.OrdinalIgnoreCase)), "Response does not contain expected Content-Type header.");
-                Assert.True(response.ContentHeaders.Any(h => h.Value.ToString().Contains(expectedContentType)), $"Response does not contain expected Content-Type header with value: {expectedContentType}");
+                Assert.True(response.ContentHeaders?.Any(h => h.Name.Equals("Content-Type", StringComparison.OrdinalIgnoreCase)), "Response does not contain expected Content-Type header.");
+                Assert.True(response.ContentHeaders?.Any(h => h.Value.ToString().Contains(expectedContentType)), $"Response does not contain expected Content-Type header with value: {expectedContentType}");
                 Log.Info("Task2 Response header for list of users validated successfully.");
             }
             catch (Xunit.Sdk.TrueException ex)
@@ -333,8 +333,8 @@ namespace TestLayer
                 var response = await _apiClient.CreateUserAsync(newUser);
 
                 Assert.True(response.StatusCode == System.Net.HttpStatusCode.Created && ResponseNoErrorMessage(response), $"API call was not successful. Status code: {response.StatusCode}, Error message: {response.ErrorMessage}");
-                Assert.True(!string.IsNullOrEmpty(response.Data.ToString()), "Response data is empty or null.");
-                Assert.True(response.Data.Id.ToString().Any(), "Response does not contain a user ID.");
+                Assert.True(!string.IsNullOrEmpty(response.Data?.ToString()), "Response data is empty or null.");
+                Assert.True(response.Data.Id.HasValue, "Response does not contain a user ID.");
             }
             catch (Xunit.Sdk.TrueException ex)
             {
