@@ -3,13 +3,13 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace LocatorsForWebElements
+namespace Tests
 {
-    public class Locators_For_Web_Elements
+    public class Tests
     {
         private readonly string _url;
         private readonly ChromeOptions _options = new ChromeOptions();
-        public Locators_For_Web_Elements()
+        public Tests()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -26,12 +26,12 @@ namespace LocatorsForWebElements
             WebDriver driver = new ChromeDriver(_options);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             var _careersLocator = By.LinkText("Careers");
-            var _StartButtonLocator = By.ClassName("pinned-button-ui-23");
+            var _StartButtonLocator = By.XPath("//main//div[contains(@data-gtm-category,'job_search')]");
             var _SearchFieldLocator = By.Name("search");
             var _CountryFieldLocator = By.XPath("//div[@data-testid = 'country-dropdown']//input[contains(@class, 'input')]");
-            var _CountryFieldCleanerLocator = By.XPath("//div[contains(@class,'clear-indicator')]");
+            var _CountryFieldCleanerLocator = By.XPath("//div[contains(@class,'Dropdown_clear')]");
             var _CountryOptionLocator = By.XPath($"//div[@role='listbox']//child::*[contains(text(), '{country}')]");
-            var _RadioButtonRemoteLocator = By.CssSelector("label[for ='checkbox-vacancy_type-Remote-_r_0_']");
+            var _RadioButtonRemoteLocator = By.CssSelector("div[class *= 'sideMenu'] label[for *='checkbox-vacancy_type-Remote']");
             var _SearchButtonLocator = By.XPath("//button[@type='submit' and contains(@name,'submit_search_box')]");
             var _ResultLocator = By.XPath("//div[contains(@data-testid,'accordion-section-container')]");
             var _ResultExtendedLocator = By.XPath($"//div[contains(@data-testid, 'categories-container')]//descendant::div[contains(text(),'{programminglanguage}')]");
