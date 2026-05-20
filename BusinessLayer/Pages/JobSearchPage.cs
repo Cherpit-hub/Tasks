@@ -6,7 +6,7 @@ namespace BusinessLayer.PageObjects
     {
         readonly By _SearchFieldLocator = By.Name("search");
         readonly By _CountryFieldLocator = By.XPath("//div[@data-testid = 'country-dropdown']//input[contains(@class, 'input')]");
-        readonly By _RadioButtonRemoteLocator = By.CssSelector("label[for *='checkbox-vacancy_type-Remote']");
+        readonly By _RadioButtonRemoteLocator = By.CssSelector("div[class *= 'sideMenu'] label[for *='checkbox-vacancy_type-Remote']");
         readonly By _SearchButtonLocator = By.XPath("//button[@type='submit' and contains(@name,'submit_search_box')]");
         readonly By _ResultLocator = By.XPath("//div[contains(@data-testid,'accordion-section-container')]");
 
