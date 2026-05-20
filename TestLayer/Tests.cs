@@ -31,7 +31,6 @@ namespace TestLayer
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
                 _jobSearchPage.EnterProgrammingLanguageIntoSearchField(programminglanguage);
-                _jobSearchPage.ClearCountryField();
                 _jobSearchPage.SelectCountry(country);
                 _jobSearchPage.ClickRemotePositionRadioButton();
                 _jobSearchPage.ClickJobSearchButton();
@@ -91,10 +90,12 @@ namespace TestLayer
         }
         private static IEnumerable<IWebElement> ResultsThatContainSearchKeyWord(string searchQuery, ReadOnlyCollection<IWebElement> elements)
         {
+            Log.Info($"Filtering search results for keyword: {searchQuery}");
             IEnumerable<IWebElement> filteredElements =
             from element in elements
             where element.Text.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
             select element;
+            Log.Info($"Found {filteredElements.Count()} search results that contain the keyword: {searchQuery}");
             return filteredElements;
         }
         [Theory]

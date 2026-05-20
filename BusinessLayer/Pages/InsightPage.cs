@@ -15,16 +15,19 @@ namespace BusinessLayer.PageObjects
         public ReadOnlyCollection<string> GetInsightArticles()
         {
             List<string> articleTitles = new List<string>();
+            Log.Info("Retrieving insight article titles from the carousel.");
             foreach (var article in _driver.FindElements(_InsightArticleTitleLocator))
             {
                 articleTitles.Add(article.Text);
             }
+            Log.Info($"Retrieved {articleTitles.Count} article titles: {string.Join(", ", articleTitles)}");
             return articleTitles.AsReadOnly();
         }
         public void ClickCarouselRightButton()
         {
             Random random = new Random();
             var counter = random.Next(2, 5);
+            Log.Info($"Clicking carousel right button {counter} times.");
             while (counter > 0) 
             {
                 ScrollToElement(_CarouselRightButtonLocator);
@@ -33,11 +36,14 @@ namespace BusinessLayer.PageObjects
                     .Perform();
                 counter--;
             }
+            Log.Info("Finished clicking carousel right button.");
         }
         public InsightArticlePage ClickReadMoreButtonOfFirstInsightArticle()
         {
+            Log.Info("Clicking 'Read More' button of the insight article.");
             ScrollToElement(_InsighArticleReadMoreButtonLocator);
             FindElement(_InsighArticleReadMoreButtonLocator).Click();
+            Log.Info("'Read More' button clicked.");
             return new InsightArticlePage(_driver);
         }
     }

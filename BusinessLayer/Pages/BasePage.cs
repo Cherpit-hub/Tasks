@@ -5,18 +5,19 @@ namespace BusinessLayer.PageObjects
 {
     public class BasePage
     {
+        readonly By _careersLocator = By.LinkText("Careers");
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
         readonly By _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
         protected readonly IWebDriver _driver;
         protected readonly WebDriverWait _wait;
+        public static log4net.ILog Log => CoreLayer.Logger.Log;
 
         protected BasePage(IWebDriver driver)
 
         {
             _driver = driver ?? throw new ArgumentNullException(nameof(driver));
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(7))
             {
                 PollingInterval = TimeSpan.FromMilliseconds(1000)
             };
@@ -44,35 +45,28 @@ namespace BusinessLayer.PageObjects
         }
         public void ClickSearchButton()
         {
+            Log.Info("Clicking Global search button");
             FindElement(_magnifiericonLocator).Click();
         }
         public void EnterSearchQuery(string searchQuery)
         {
+            Log.Info($"Entering search query: {searchQuery}");
             FindElement(_searchFieldLocator).SendKeys(searchQuery);
         }
         public SearchResultPage ClickSubmitSearchButton()
         {
-            _wait.Until(d =>
-            {
-                try
-                {
-                    FindElement(_searchButtonLocator).Click();
-                    return ElementNotDisplayed(_searchButtonLocator);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is StaleElementReferenceException || ex is NoSuchElementException || ex is ElementNotInteractableException)
-                    {
-                        return false;
-                    }
-                    else throw;
-                }
-            });
+            Log.Info("Clicking submit search button");
+            _wait.Until((d => FindElement(_searchButtonLocator).Enabled));
+            FindElement(_searchButtonLocator).Click();
+            Log.Info("Search button clicked successfully");
             return new SearchResultPage(_driver);
         }
-        private bool ElementNotDisplayed(By locator)
+        public CareersPage ClickCareersLink()
         {
-            return !FindElement(locator).Displayed;
+            Log.Info("Clicking Careers button");
+            FindElement(_careersLocator).Click();
+            Log.Info("Careers button clicked successfully");
+            return new CareersPage(_driver);
         }
     }
 }

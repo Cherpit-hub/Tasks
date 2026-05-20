@@ -21,6 +21,7 @@ namespace TestLayer
         public void InitializeWebDriver()
         {
             _driver = CreateWebDriver(Configuration.EnvBrowser ?? Configuration.BrowserType);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             _driver.Manage().Window.Maximize();
         }
 

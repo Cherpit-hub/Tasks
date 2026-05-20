@@ -12,7 +12,10 @@ namespace BusinessLayer.PageObjects
 
         public ReadOnlyCollection<IWebElement> GetSearchResults()
         {
-            return _driver.FindElements(_articleLocator);
+            Log.Info("Retrieving search results from the search result page.");
+            var results = _driver.FindElements(_articleLocator);
+            Log.Info($"Retrieved {results.Count} search results.");
+            return results;
         }
     }
 }
