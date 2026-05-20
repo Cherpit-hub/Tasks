@@ -15,6 +15,7 @@ namespace BusinessLayer.PageObjects
         public MainPage(IWebDriver driver) : base(driver)
         {
             NavigateTo(Configuration.AppUrl);
+            WaitForPageToLoad();
         }
         public CareersPage ClickCareersLink()
         {
@@ -65,6 +66,24 @@ namespace BusinessLayer.PageObjects
         {
             FindElement(_insightLocator).Click();
             return new InsightPage(_driver);
+        }
+        public void WaitForPageToLoad()
+        {
+            _wait.Until(d =>
+            {
+                try
+                {
+                    return FindElement(_magnifiericonLocator).Displayed;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is NoSuchElementException)
+                    {
+                        return false;
+                    }
+                    else throw; 
+                }
+            });
         }
     }
 }

@@ -5,8 +5,8 @@ namespace CoreLayer.API.Models
     public class Geo
     {
         [JsonPropertyName("lat")]
-        public string Lat { get; set; }
+        public string? Lat { get; set; }
         [JsonPropertyName("lng")]
-        public string Lng { get; set; }
+        public string? Lng { get; set; }
     }
 }
