@@ -1,4 +1,5 @@
 using BusinessLayer.PageObjects;
+using CoreLayer;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -34,31 +35,7 @@ namespace TestLayer.Steps
         [Then("The file {string} should be downloaded")]
         public void ThenTheFileShouldBeDownloaded(string nameOfFile)
         {
-            Assert.True(IsFileDownloaded(nameOfFile));
-        }
-        public bool IsFileDownloaded(string fileName)
-        {
-            var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-            var filePath = Path.Combine(downloadPath, fileName);
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
-            {
-                PollingInterval = TimeSpan.FromMilliseconds(500)
-            };
-            return wait.Until(d =>
-            {
-                try
-                {
-                    return File.Exists(filePath);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is IOException || ex is UnauthorizedAccessException)
-                    {
-                        return false;
-                    }
-                    else throw;
-                }
-            });
+            Assert.True(BrowserUtils.IsFileDownloaded(nameOfFile, _driver));
         }
     }
 }
