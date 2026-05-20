@@ -34,14 +34,8 @@ namespace TestLayer
                 _jobSearchPage.ClearCountryField();
                 _jobSearchPage.SelectCountry(country);
                 _jobSearchPage.ClickRemotePositionRadioButton();
-                _jobSearchPage.ClickSearchButton();
+                _jobSearchPage.ClickJobSearchButton();
                 Assert.Contains(programminglanguage, _jobSearchPage.FindRelevantJobOffer(programminglanguage).Text);
-            }
-            catch (Xunit.Sdk.ContainsException ex)
-            {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Test Task1 failed with programming language: {programminglanguage} and country: {country}, Exception message: {ex.Message}");
-                throw;
             }
             catch (Exception)
             {
@@ -84,16 +78,10 @@ namespace TestLayer
                 Assert.Equal(ResultsThatContainSearchKeyWord(searchQuery, _searchResultPage.GetSearchResults()).Count(), _searchResultPage.GetSearchResults().Count);
                 Log.Info($"Search results validated successfully for search query: {searchQuery}");
             }
-            catch (Xunit.Sdk.EqualException ex)
-            {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Assertion failed with search query: {searchQuery}, Exception message: {ex.Message}");
-                throw;
-            }
             catch (Exception)
             {
                 BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Warn("Test Task2 failed unexpectedly, screenshot taken for debugging.");
+                Log.Warn("Test Task2 failed, screenshot taken for debugging.");
                 throw;
             }
         }
@@ -121,12 +109,6 @@ namespace TestLayer
                 _mainPage.ClickCodeOfConductLink();
                 Assert.True(IsFileDownloaded(nameOfFile));
                 Log.Info($"File download validated successfully for file: {nameOfFile}");
-            }
-            catch (Xunit.Sdk.TrueException ex)
-            {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Assertion failed for file: {nameOfFile}, Exception message: {ex.Message}");
-                throw;
             }
             catch (Exception)
             {
@@ -176,12 +158,6 @@ namespace TestLayer
                 actualTitle = _insightArticlePage.GetArticleTitle();
                 Log.Info($"Actual title retrieved from article page: {actualTitle}");
                 AssertContains(expectedTitles, actualTitle);
-            }
-            catch (Xunit.Sdk.TrueException ex)
-            {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
-                Log.Error($"Assertion failed for Task4 article title, Exception message: {ex.Message}");
-                throw;
             }
             catch (Exception)
             {

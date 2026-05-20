@@ -7,8 +7,8 @@ namespace BusinessLayer.PageObjects
     public class InsightPage : BasePage
     {
         readonly By _InsightArticleTitleLocator = By.XPath("//div[starts-with(@class,'owl-item')][contains(@class,'active')]//span[contains(@class,'60')]//span[string-length (text())>0]");
-        readonly By _InsighArticleReadMoreButtonLocator = By.XPath("//div[starts-with(@class,'owl-item')][contains(@class,'active')]//a[contains(text(),'Read')]");
-        readonly By _CarouselRightButtonLocator = By.CssSelector("div[class *= slider__navigation]:not([class *= 'disabled'])>button[class *= 'right']");
+        readonly By _InsighArticleReadMoreButtonLocator = By.XPath("//div[contains(@class,'media-content')]//div[starts-with(@class,'owl-item')][contains(@class,'active')]//a[contains(text(),'Read')]");
+        readonly By _CarouselRightButtonLocator = By.CssSelector("div[class*= media-content] div[class *= slider__navigation]:not([class *= 'disabled'])>button[class *= 'right']");
         public InsightPage(IWebDriver driver) : base(driver)
         {
         }

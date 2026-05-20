@@ -105,7 +105,7 @@ namespace BusinessLayer.PageObjects
             });
             }
 
-        public void ClickSearchButton()
+        public void ClickJobSearchButton()
         {
             _wait.Until(d =>
             {
