@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocatorsForWebElements.PageObjects
+namespace Tests.PageObjects
 {
     internal class SearchResultPage : BasePage
     {

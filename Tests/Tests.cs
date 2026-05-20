@@ -1,4 +1,4 @@
-using LocatorsForWebElements.PageObjects;
+using Tests.PageObjects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using OpenQA.Selenium;
@@ -7,9 +7,9 @@ using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 
-namespace LocatorsForWebElements
+namespace Tests
 {
-    public class Locators_For_Web_Elements
+    public class Tests
     {
         private readonly ChromeOptions _options = new ChromeOptions();
         private IWebDriver _driver = null!;
@@ -19,7 +19,7 @@ namespace LocatorsForWebElements
         private SearchResultPage _searchResultPage = null!;
         private InsightPage _insightPage = null!;
         private InsightArticlePage _insightArticlePage = null!;
-        public Locators_For_Web_Elements()
+        public Tests()
         {
             _options.AddArgument("--start-maximized");
             _options.AddArgument("--incognito");

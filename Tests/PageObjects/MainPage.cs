@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace LocatorsForWebElements.PageObjects
+namespace Tests.PageObjects
 {
     internal class MainPage : BasePage
     {
