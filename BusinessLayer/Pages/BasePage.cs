@@ -1,10 +1,12 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 namespace BusinessLayer.PageObjects
 {
     public class BasePage
     {
+        readonly By _servicesLocator = By.LinkText("Services");
         readonly By _careersLocator = By.LinkText("Careers");
         readonly By _magnifiericonLocator = By.ClassName("header__icon");
         readonly By _searchFieldLocator = By.Id("new_form_search");
@@ -46,11 +48,29 @@ namespace BusinessLayer.PageObjects
         public void ClickSearchButton()
         {
             Log.Info("Clicking Global search button");
-            FindElement(_magnifiericonLocator).Click();
+            _wait.Until((d =>
+            {
+                try
+                {
+                    FindElement(_magnifiericonLocator).Click();
+                    return FindElement(_searchFieldLocator).Displayed;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException || ex is ElementNotInteractableException)
+                    {
+                        Log.Warn($"Encountered {ex.GetType().Name} while waiting for Search field to be Displayed. Retrying...");
+                        return false;
+                    }
+                    else throw;
+                }
+            }));
+            
         }
         public void EnterSearchQuery(string searchQuery)
         {
             Log.Info($"Entering search query: {searchQuery}");
+            _wait.Until((d=> FindElement(_searchFieldLocator).Enabled));
             FindElement(_searchFieldLocator).SendKeys(searchQuery);
         }
         public SearchResultPage ClickSubmitSearchButton()
@@ -67,6 +87,17 @@ namespace BusinessLayer.PageObjects
             FindElement(_careersLocator).Click();
             Log.Info("Careers button clicked successfully");
             return new CareersPage(_driver);
+        }
+        public void HoverOverServicesLink()
+        {
+            var servicesElement = FindElement(_servicesLocator);
+            var actions = new Actions(_driver);
+            actions.MoveToElement(servicesElement).Perform();
+        }
+        public ServicesOptionPage ClickOnServicesCategoryLink(string linkText)
+        {
+            FindElement(By.LinkText(linkText)).Click();
+            return new ServicesOptionPage(_driver);
         }
     }
 }
