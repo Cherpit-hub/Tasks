@@ -5,14 +5,13 @@ of website to the job search page and able to search for desired position
 
 @tag1
 Scenario Outline: Searching for a job
-	Given I am on the homepage
-	And I click on Careers link
-	When T click Start your search here on Careers page
-	Then Jobs page should load
-	When I Enter '<Programming language>' into the Search by role or keyword field
-	And I Select '<Country>' in Choose your country field
-	And I Select Remote option
-	And Click Search button
+	Given User is on the homepage
+	And User clicks on 'Careers' link
+	Then User clicks 'Start your search here' button on 'Careers' page
+	When User enters '<Programming language>' into the 'search by role or keyword' field
+	And User selects '<Country>' in 'choose your country' field
+	And User selects 'Remote' option
+	And User clicks 'Search' button
 	Then The latest element of the list should contain '<Programming language>'.
 	Examples: 
 	| Programming language | Country |

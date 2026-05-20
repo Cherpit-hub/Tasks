@@ -9,7 +9,6 @@ namespace TestLayer.Steps
     [Binding]
     public class JobSearchStepDefinitions
     {
-        private readonly ChromeOptions _options = new ChromeOptions();
         private IWebDriver _driver;
         private MainPage _mainPage;
         private CareersPage _careersPage = null!;
@@ -21,44 +20,38 @@ namespace TestLayer.Steps
             _mainPage = (MainPage)scenarioContext["MainPage"];
         }
 
-        [Given("I click on Careers link")]
-        public void GivenIClickOnCareersLink()
+        [Given("User clicks on 'Careers' link")]
+        public void GivenUserClicksOnCareersLink()
         {
             ClickCareersLink();
         }
 
-        [When("T click Start your search here on Careers page")]
-        public void WhenTClickStartYourSearchHereOnCareersPage()
+        [Then("User clicks 'Start your search here' button on 'Careers' page")]
+        public void ThenUserClicksStartYourSearchHereButtonOnCareersPage()
         {
             NavigateToJobSearchPage();
         }
 
-        [Then("Jobs page should load")]
-        public void ThenJobsPageShouldLoad()
-        {
-            // Next steps have waits
-        }
-
-        [When("I Enter {string} into the Search by role or keyword field")]
-        public void WhenIEnterIntoTheSearchByRoleOrKeywordField(string programming_language)
+        [When("User enters {string} into the 'search by role or keyword' field")]
+        public void WhenUserEntersIntoTheSearchByRoleOrKeywordField(string programming_language)
         {
             _jobSearchPage.EnterProgrammingLanguageIntoSearchField(programming_language);
         }
 
-        [When("I Select {string} in Choose your country field")]
-        public void WhenISelectInChooseYourCountryField(string country)
+        [When("User selects {string} in 'choose your country' field")]
+        public void WhenUserSelectsInChooseYourCountryField(string country)
         {
             _jobSearchPage.SelectCountry(country);
         }
 
-        [When("I Select Remote option")]
-        public void WhenISelectRemoteOption()
+        [When("User selects 'Remote' option")]
+        public void WhenUserSelectsRemoteOption()
         {
             _jobSearchPage.ClickRemotePositionRadioButton();
         }
 
-        [When("Click Search button")]
-        public void WhenClickSearchButton()
+        [When("User clicks 'Search' button")]
+        public void WhenUserClicksSearchButton()
         {
             _jobSearchPage.ClickSearchButton();
         }

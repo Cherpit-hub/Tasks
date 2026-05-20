@@ -4,12 +4,12 @@ A short summary of the feature
 
 @tag1
 Scenario Outline: Navigation to services options
-	Given I am on the homepage
-	When I click on the Services link
-	And Click on the '<service_name>' link
+	Given User is on the homepage
+	When User clicks on 'Services' link
+	And User clicks on the '<Service name>' link
 	Then It should have the correct title
-	And have section Our related Expertise displayed on the page
+	And Have section 'Our Related Expertise' displayed on the page
 	Examples:
-	| service_name   |
+	| Service name   |
 	| Generative AI  |
 	| Responsible AI |

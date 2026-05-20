@@ -21,20 +21,20 @@ namespace TestLayer.Steps
             _mainPage = (MainPage)scenarioContext["MainPage"];
         }
 
-        [Given("I Click on magnifier icon")]
-        public void GivenIClickOnMagnifierIcon()
+        [Given("User clicks on magnifier icon")]
+        public void GivenUserClicksOnMagnifierIcon()
         {
             _mainPage.ClickSearchButton();
         }
 
-        [When("I fill the search field with {string}")]
-        public void WhenIFillTheSearchFieldWith(string Query)
+        [When("User fills the search field with {string}")]
+        public void WhenUserFillTheSearchFieldWith(string Query)
         {
             _mainPage.EnterSearchQuery(Query);
         }
 
-        [When("Click Find button")]
-        public void WhenClickFindButton()
+        [When("User clicks on Find button")]
+        public void WhenUserClicksOnFindButton()
         {
             ClickFindButton();
         }

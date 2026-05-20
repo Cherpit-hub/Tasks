@@ -9,13 +9,6 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ReqnrollFeatureFile Remove="Features\FileDownload.feature" />
-    <ReqnrollFeatureFile Remove="Features\GlobalSearch.feature" />
-    <ReqnrollFeatureFile Remove="Features\InsightsCarousel.feature" />
-    <ReqnrollFeatureFile Remove="Features\JobSearch.feature" />
-    <ReqnrollFeatureFile Remove="Features\Services.feature" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />

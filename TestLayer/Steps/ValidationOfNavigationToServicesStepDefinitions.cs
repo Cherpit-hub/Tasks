@@ -21,20 +21,20 @@ namespace TestLayer.Steps
 
         }
 
-        [Given("I am on the homepage")]
-        public void GivenIAmOnTheHomepage()
+        [Given("User is on the homepage")]
+        public void GivenUserisOnTheHomepage()
         {
             //Hooks put us on a homepage
         }
 
-        [When("I click on the Services link")]
-        public void WhenIClickOnTheLink()
+        [When("User clicks on 'Services' link")]
+        public void WhenUserClicksOnServicesLink()
         {
             _mainPage.HoverOverServicesLink();
         }
 
-        [When("Click on the {string} link")]
-        public void WhenClickOnTheLink(string services)
+        [When("User clicks on the {string} link")]
+        public void WhenUserClicksOnTheLink(string services)
         {
             _services = services;
             _servicesOptionPage = _mainPage.ClickOnServicesCategoryLink(services);
@@ -46,7 +46,7 @@ namespace TestLayer.Steps
             Assert.Equal(_services, _servicesOptionPage.GetTitle());
         }
 
-        [Then("have section Our related Expertise displayed on the page")]
+        [Then("Have section 'Our Related Expertise' displayed on the page")]
         public void ThenHaveSectionDisplayedOnThePage()
         {
             Assert.True(_servicesOptionPage.IsSectionDisplayed());

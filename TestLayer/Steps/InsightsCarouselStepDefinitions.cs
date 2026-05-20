@@ -22,26 +22,26 @@ namespace TestLayer.Steps
             _mainPage = (MainPage)scenarioContext["MainPage"];
         }
 
-        [Given("I Click Insights from the top menu")]
-        public void GivenIClickInsightsFromTheTopMenu()
+        [Given("User clicks 'Insights' on the top menu")]
+        public void GivenUserClicksInsightsOnTheTopMenu()
         {
             NavigateToInsightPage();
         }
 
-        [Given("I Swipe carousel two or more times")]
-        public void GivenISwipeCarouselTwoOrMoreTimes()
+        [Given("User swipes carousel two or more times")]
+        public void GivenUserSwipesCarouselTwoOrMoreTimes()
         {
             _insightPage.ClickCarouselRightButton();
         }
 
-        [When("I note the name of article")]
-        public void WhenINoteTheNameOfArticle()
+        [When("User notes the name of article")]
+        public void WhenUserNotesTheNameOfArticle()
         {
             expectedTitles = _insightPage.GetInsightArticles();
         }
 
-        [When("I click on Read More button")]
-        public void WhenIClickOnReadMoreButton()
+        [When("User clicks on 'Read More' button")]
+        public void WhenUserClicksOnReadMoreButton()
         {
             ClickReadMoreButton();
         }

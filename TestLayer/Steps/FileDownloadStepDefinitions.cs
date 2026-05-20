@@ -20,14 +20,14 @@ namespace TestLayer.Steps
             _mainPage = (MainPage)scenarioContext["MainPage"];
         }
 
-        [Given("I scroll down to the footer")]
-        public void GivenIScrollDownToTheFooter()
+        [Given("User scrolls down to the footer")]
+        public void GivenUserScrollsDownToTheFooter()
         {
             _mainPage.ScrollToFooter();
         }
 
-        [When("I click on Code of Ethical conduct \\(PDF) in Policies section")]
-        public void WhenIClickOnCodeOfEthicalConductPDFInPoliciesSection()
+        [When("User clicks on 'Code of Ethical conduct' in policies section")]
+        public void WhenUserClicksOnCodeOfEthicalConductPDFInPoliciesSection()
         {
             _mainPage.ClickCodeOfConductLink();
         }
