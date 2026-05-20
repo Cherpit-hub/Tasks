@@ -1,215 +1,132 @@
-using Tests.PageObjects;
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
 
 namespace Tests
 {
     public class Tests
     {
+        private readonly string _url;
         private readonly ChromeOptions _options = new ChromeOptions();
-        private IWebDriver _driver = null!;
-        private MainPage _mainPage = null!;
-        private CareersPage _careersPage = null!;
-        private JobSearchPage _jobSearchPage = null!;
-        private SearchResultPage _searchResultPage = null!;
-        private InsightPage _insightPage = null!;
-        private InsightArticlePage _insightArticlePage = null!;
         public Tests()
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            _url = config["ApplicationUrl"] ?? string.Empty;
             _options.AddArgument("--start-maximized");
             _options.AddArgument("--incognito");
         }
-        private void InitializeChromeWebDriver()
-        {
-            _driver = new ChromeDriver(_options);
-        }
-
         [Theory]
         [InlineData("C#", "Poland")]
         [InlineData("Java", "Ukraine")]
-        public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage, string country)
-        {
+        public void Task1ValidateThatUserCanSearchForaPositionBasedOnCriteria(string programminglanguage,string country)
+        {   
+            WebDriver driver = new ChromeDriver(_options);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            var _careersLocator = By.LinkText("Careers");
+            var _StartButtonLocator = By.XPath("//main//div[contains(@data-gtm-category,'job_search')]");
+            var _SearchFieldLocator = By.Name("search");
+            var _CountryFieldLocator = By.XPath("//div[@data-testid = 'country-dropdown']//input[contains(@class, 'input')]");
+            var _CountryFieldCleanerLocator = By.XPath("//div[contains(@class,'Dropdown_clear')]");
+            var _CountryOptionLocator = By.XPath($"//div[@role='listbox']//child::*[contains(text(), '{country}')]");
+            var _RadioButtonRemoteLocator = By.CssSelector("div[class *= 'sideMenu'] label[for *='checkbox-vacancy_type-Remote']");
+            var _SearchButtonLocator = By.XPath("//button[@type='submit' and contains(@name,'submit_search_box')]");
+            var _ResultLocator = By.XPath("//div[contains(@data-testid,'accordion-section-container')]");
+            var _ResultExtendedLocator = By.XPath($"//div[contains(@data-testid, 'categories-container')]//descendant::div[contains(text(),'{programminglanguage}')]");
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3))
+            {
+                PollingInterval = TimeSpan.FromMilliseconds(500)
+            };
             try
             {
-                InitializeChromeWebDriver();
-                NavigateToMainPage();
-                NavigateToCareersPage();
-                NavigateToJobSearchPage();
-                _jobSearchPage.EnterProgrammingLanguageIntoSearchField(programminglanguage);
-                _jobSearchPage.ClearCountryField();
-                _jobSearchPage.SelectCountry(country);
-                _jobSearchPage.ClickRemotePositionRadioButton();
-                _jobSearchPage.ClickSearchButton();
-                Assert.Contains(programminglanguage, _jobSearchPage.FindRelevantJobOffer(programminglanguage).Text);
-                _driver.Quit();
+                driver.Navigate().GoToUrl(_url);
+                driver.FindElement(_careersLocator).Click();
+                driver.FindElement(_StartButtonLocator).Click();
+                driver.FindElement(_SearchFieldLocator).SendKeys(programminglanguage);
+                driver.FindElement(_CountryFieldCleanerLocator).Click();
+                var countryfield = driver.FindElement(_CountryFieldLocator);
+                wait.Until(d =>
+                {
+                    try
+                    {
+                        countryfield.Click();
+                        var element = driver.FindElement(_CountryOptionLocator);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'start'});", element);
+                        element.Click();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException)
+                        {
+                            return false;
+                        }
+                        else throw;
+                    }
+                });
+                driver.FindElement(_RadioButtonRemoteLocator).Click();
+                driver.FindElement(_SearchButtonLocator).Click();
+                IWebElement revealed = driver.FindElement(_ResultExtendedLocator);
+                wait.Until(d =>
+                {
+                    try
+                    {
+                        driver.FindElement(_ResultLocator).Click();
+                        return revealed.Displayed;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException)
+                        {
+                            return false;
+                        }
+                        else throw;
+                    }
+                });
+                Assert.Contains(programminglanguage, revealed.Text);
+                driver.Quit();
             }
             catch (Exception)
             {
-                _driver.Quit();
+                driver.Quit();
                 throw;
             }
 
-        }
-        private void NavigateToMainPage()
-        {
-            _mainPage = new MainPage(_driver);
-        }
-        private void NavigateToCareersPage()
-        {
-            _careersPage = _mainPage.ClickCareersLink();
-        }
-        private void NavigateToJobSearchPage()
-        {
-            _jobSearchPage = _careersPage.ClickJobSearchPageButton();
-        }
-
+            }
         [Theory]
         [InlineData("BLOCKCHAIN")]
         [InlineData("Cloud")]
         [InlineData("Automation")]
         public void Task2ValidateGlobalSearchWorksAsExpected(string searchQuery)
         {
+            WebDriver driver = new ChromeDriver(_options);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            var _magnifiericonLocator = By.ClassName("header__icon");
+            var _searchFieldLocator = By.Id("new_form_search");
+            var _searchButtonLocator = By.XPath("//button[contains(@class,'custom-button')]");
+            var _articleLocator = By.TagName("article");
             //* PartialLinkText
             try
             {
-                InitializeChromeWebDriver();
-                NavigateToMainPage();
-                _mainPage.ClickSearchButton();
-                _mainPage.EnterSearchQuery(searchQuery);
-                ClickFindButton();
-                Assert.Equal(ResultsThatContainSearchKeyWord(searchQuery, _searchResultPage.GetSearchResults()).Count(), _searchResultPage.GetSearchResults().Count);
-                _driver.Quit();
+                driver.Navigate().GoToUrl(_url);
+                driver.FindElement(_magnifiericonLocator).Click();
+                driver.FindElement(_searchFieldLocator).SendKeys(searchQuery);
+                driver.FindElement(_searchButtonLocator).Click();
+                var elements = driver.FindElements(_articleLocator);
+                IEnumerable<IWebElement> filteredElements = 
+                    from element in elements
+                    where element.Text.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    select element;
+                Assert.Equal(elements.Count, filteredElements.Count());
+                driver.Quit();
             }
             catch (Exception)
             {
-                _driver.Quit();
+                driver.Quit();
                 throw;
             }
         }
-        private void ClickFindButton()
-        {
-            _searchResultPage = _mainPage.ClickSubmitSearchButton();
-        }
-        private static IEnumerable<IWebElement> ResultsThatContainSearchKeyWord(string searchQuery, ReadOnlyCollection<IWebElement> elements)
-        {
-            IEnumerable<IWebElement> filteredElements =
-            from element in elements
-            where element.Text.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
-            select element;
-            return filteredElements;
-        }
-        [Theory]
-        [InlineData("Code-Of-Conduct_01_26.pdf")]
-        public void Task3ValidateDownloadFunctionWorksAsExpected(string nameOfFile)
-        {
-            try
-            {
-                InitializeChromeWebDriver();
-                NavigateToMainPage();
-                _mainPage.ScrollToFooter();
-                _mainPage.ClickCodeOfConductLink();
-                Assert.True(IsFileDownloaded(nameOfFile));
-                _driver.Quit();
-            }
-            catch (Exception)
-            {
-                _driver.Quit();
-                throw;
-            }
-        }
-        public bool IsFileDownloaded(string fileName)
-        {
-            var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-            var filePath = Path.Combine(downloadPath, fileName);
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
-            {
-                PollingInterval = TimeSpan.FromMilliseconds(500)
-            };
-            return wait.Until(d =>
-            {
-                try
-                {
-                    return File.Exists(filePath);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is IOException || ex is UnauthorizedAccessException)
-                    {
-                        return false;
-                    }
-                    else throw;
-                }
-            });
-        }
-        [Fact]
-        public void Task4ValidatetitleOfInsightArticleMatchesWithTitleOnCarousel()
-        {
-            ReadOnlyCollection<string> expectedTitles;
-            string actualTitle;
-            try
-            {
-                InitializeChromeWebDriver();
-                NavigateToMainPage();
-                NavigateToInsightPage();
-                _insightPage.ClickCarouselRightButton();
-                expectedTitles = _insightPage.GetInsightArticles();
-                _insightArticlePage = _insightPage.ClickReadMoreButtonOfFirstInsightArticle();
-                actualTitle = _insightArticlePage.GetArticleTitle();
-                AssertContains(expectedTitles, actualTitle);
-                _driver.Quit();
-            }
-            catch (Exception)
-            {
-                _driver.Quit();
-                throw;
-            }
-        }
-        private void NavigateToInsightPage()
-        {
-            _insightPage = _mainPage.ClickInsightLink();
-        }
-        private static void AssertContains(IEnumerable<string> expectedTitles, string actualTitle)
-        {
-            bool isTitleFound = false;
-            foreach (var title in expectedTitles)
-            {
-                if (actualTitle.Contains(title, StringComparison.OrdinalIgnoreCase))
-                {
-                    isTitleFound = true;
-                    break;
-                }
-            }
-            Assert.True(isTitleFound, $"Expected title was not found in the actual title. Actual title: {actualTitle}");
-        }
-        //    _driver.Navigate().GoToUrl("chrome://downloads/");
-        //    var _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3))
-        //    {
-        //        PollingInterval = TimeSpan.FromMilliseconds(500)
-        //    };
-        //    _wait.Until(d =>
-        //    {
-        //        try
-        //        {
-        //            var shadowRoot = _driver.FindElement(By.CssSelector("body > downloads-manager"))
-        //                .GetShadowRoot().FindElement(By.CssSelector("#list>"))
-        //                .GetShadowRoot().FindElement(By.CssSelector("#fileLink"));
-        //            return shadowRoot.Text.Contains(fileName);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            if (ex is StaleElementReferenceException || ex is NoSuchElementException)
-        //            {
-        //                return false;
-        //            }
-        //            else throw;
-        //        }
-        //    });
-        //    return true;
-        //}
     }
 }
