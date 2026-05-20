@@ -28,8 +28,8 @@ namespace TestLayer.Steps
             NavigateToInsightPage();
         }
 
-        [Given("User swipes carousel two or more times")]
-        public void GivenUserSwipesCarouselTwoOrMoreTimes()
+        [Given("User swipes carousel from two to five more times")]
+        public void GivenUserSwipesCarouselFromTwoToFiveMoreTimes()
         {
             _insightPage.ClickCarouselRightButton();
         }

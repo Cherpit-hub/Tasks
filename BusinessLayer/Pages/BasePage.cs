@@ -48,11 +48,29 @@ namespace BusinessLayer.PageObjects
         public void ClickSearchButton()
         {
             Log.Info("Clicking Global search button");
-            FindElement(_magnifiericonLocator).Click();
+            _wait.Until((d =>
+            {
+                try
+                {
+                    FindElement(_magnifiericonLocator).Click();
+                    return FindElement(_searchFieldLocator).Displayed;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is StaleElementReferenceException || ex is ElementClickInterceptedException || ex is ElementNotInteractableException)
+                    {
+                        Log.Warn($"Encountered {ex.GetType().Name} while waiting for Search field to be Displayed. Retrying...");
+                        return false;
+                    }
+                    else throw;
+                }
+            }));
+            
         }
         public void EnterSearchQuery(string searchQuery)
         {
             Log.Info($"Entering search query: {searchQuery}");
+            _wait.Until((d=> FindElement(_searchFieldLocator).Enabled));
             FindElement(_searchFieldLocator).SendKeys(searchQuery);
         }
         public SearchResultPage ClickSubmitSearchButton()

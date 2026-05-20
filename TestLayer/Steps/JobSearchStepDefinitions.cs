@@ -53,7 +53,7 @@ namespace TestLayer.Steps
         [When("User clicks 'Search' button")]
         public void WhenUserClicksSearchButton()
         {
-            _jobSearchPage.ClickSearchButton();
+            _jobSearchPage.ClickJobSearchButton();
         }
 
         [Then("The latest element of the list should contain {string}.")]
