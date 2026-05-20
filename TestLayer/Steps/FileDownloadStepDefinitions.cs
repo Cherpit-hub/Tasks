@@ -32,8 +32,8 @@ namespace TestLayer.Steps
             _mainPage.ClickCodeOfConductLink();
         }
 
-        [Then("The file {string} should be downloaded")]
-        public void ThenTheFileShouldBeDownloaded(string nameOfFile)
+        [Then("Verify that the file {string} is downloaded")]
+        public void ThenVerifyThatTheFileIsDownloaded(string nameOfFile)
         {
             Assert.True(BrowserUtils.IsFileDownloaded(nameOfFile, _driver));
         }

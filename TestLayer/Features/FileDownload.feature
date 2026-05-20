@@ -7,4 +7,4 @@ Scenario: Code of conduct download
 	Given User is on the homepage
 	And User scrolls down to the footer
 	When User clicks on 'Code of Ethical conduct' in policies section
-	Then The file "Code-Of-Conduct_01_26.pdf" should be downloaded
+	Then Verify that the file "Code-Of-Conduct_01_26.pdf" is downloaded
