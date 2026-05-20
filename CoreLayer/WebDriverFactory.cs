@@ -14,13 +14,16 @@ namespace CoreLayer
                     {
                         var service = ChromeDriverService.CreateDefaultService();
                         ChromeOptions options = new();
-                        options.AddArgument("--start-maximized");
                         options.AddArgument("--incognito");
-
                         return new ChromeDriver(service, options);
                     }
                 case "firefox":
-                    return new FirefoxDriver();
+                    {
+                        var service = FirefoxDriverService.CreateDefaultService();
+                        FirefoxOptions options = new();
+                        options.AddArgument("--incognito");
+                        return new FirefoxDriver(service, options);
+                    }
                 default:
                     throw new ArgumentException("Unknown browser type: " + browserType);
             }

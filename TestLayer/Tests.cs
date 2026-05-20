@@ -26,6 +26,7 @@ namespace TestLayer
             try
             {
                 Log.Info($"Starting test Task1 with programming language: {programminglanguage} and country: {country}");
+                InitializeWebDriver();
                 NavigateToMainPage();
                 NavigateToCareersPage();
                 NavigateToJobSearchPage();
@@ -75,6 +76,7 @@ namespace TestLayer
             try
             {
                 Log.Info($"Starting test Task2 with search query: {searchQuery}");
+                InitializeWebDriver();
                 NavigateToMainPage();
                 _mainPage.ClickSearchButton();
                 _mainPage.EnterSearchQuery(searchQuery);
@@ -113,6 +115,7 @@ namespace TestLayer
         {
             try
             {
+                InitializeWebDriver();
                 NavigateToMainPage();
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
@@ -163,6 +166,7 @@ namespace TestLayer
             string actualTitle;
             try
             {
+                InitializeWebDriver();
                 NavigateToMainPage();
                 NavigateToInsightPage();
                 _insightPage.ClickCarouselRightButton();
