@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 
-namespace CoreLayer
+namespace CoreLayer.Webdriver
 {
     public static class WebDriverFactory
     {

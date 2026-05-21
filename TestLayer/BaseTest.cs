@@ -4,7 +4,7 @@ using log4net;
 using log4net.Config;
 using log4net.Repository.Hierarchy;
 using OpenQA.Selenium;
-using static CoreLayer.WebDriverFactory;
+using static CoreLayer.Webdriver.WebDriverFactory;
 
 namespace TestLayer
 {
@@ -55,7 +55,7 @@ namespace TestLayer
         {
             if (disposing)
             {
-                _driver.Quit();
+                _driver?.Quit();
             }
         }
     }
