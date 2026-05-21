@@ -55,7 +55,7 @@ namespace TestLayer
         {
             if (disposing)
             {
-                _driver.Quit();
+                _driver?.Quit();
             }
         }
     }
