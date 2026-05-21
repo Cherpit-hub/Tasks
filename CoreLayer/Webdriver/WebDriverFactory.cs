@@ -22,6 +22,7 @@ namespace CoreLayer.Webdriver
                     var firefoxOptions = new FirefoxOptions();
                     firefoxOptions.AddArgument("--start-maximized");
                     firefoxOptions.AddArgument("--headless");
+                    firefoxOptions.BinaryLocation = "/snap/bin/firefox";
                     return new FirefoxDriver(firefoxOptions);
                 default:
                     throw new ArgumentException("Unknown browser type: " + browserType);
