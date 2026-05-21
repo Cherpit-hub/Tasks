@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
 using BusinessLayer.PageObjects;
 using CoreLayer;
+using static CoreLayer.BrowserUtils;
 
 namespace TestLayer
 {
@@ -38,7 +39,7 @@ namespace TestLayer
             }
             catch (Exception)
             {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
+                TakeBrowserScreenshot(_driver);
                 Log.Warn("Test Task1 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
@@ -79,7 +80,7 @@ namespace TestLayer
             }
             catch (Exception)
             {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
+                TakeBrowserScreenshot(_driver);
                 Log.Warn("Test Task2 failed, screenshot taken for debugging.");
                 throw;
             }
@@ -108,40 +109,17 @@ namespace TestLayer
                 NavigateToMainPage();
                 _mainPage.ScrollToFooter();
                 _mainPage.ClickCodeOfConductLink();
-                Assert.True(IsFileDownloaded(nameOfFile));
+                Assert.True(IsFileDownloaded(nameOfFile, _driver));
                 Log.Info($"File download validated successfully for file: {nameOfFile}");
             }
             catch (Exception)
             {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
+                TakeBrowserScreenshot(_driver);
                 Log.Warn("Test Task3 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
         }
-        public bool IsFileDownloaded(string fileName)
-        {
-            var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-            var filePath = Path.Combine(downloadPath, fileName);
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
-            {
-                PollingInterval = TimeSpan.FromMilliseconds(500)
-            };
-            return wait.Until(d =>
-            {
-                try
-                {
-                    return File.Exists(filePath);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is IOException || ex is UnauthorizedAccessException)
-                    {
-                        return false;
-                    }
-                    else throw;
-                }
-            });
-        }
+
         [Fact]
         public void Task4ValidatetitleOfInsightArticleMatchesWithTitleOnCarousel()
         {
@@ -162,7 +140,7 @@ namespace TestLayer
             }
             catch (Exception)
             {
-                BrowserUtils.TakeBrowserScreenshot(_driver);
+                TakeBrowserScreenshot(_driver);
                 Log.Warn("Test Task4 failed unexpectedly, screenshot taken for debugging.");
                 throw;
             }
