@@ -5,15 +5,15 @@ namespace CoreLayer
 {
     public static class BrowserUtils
     {
-        public static string TakeBrowserScreenshot(IWebDriver driver)
-        {
+            public static string TakeBrowserScreenshot(IWebDriver driver)
+            {
             var _driver = driver as ITakesScreenshot;
-            var now = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss-fff");
-            var screenshotPath = Path.Combine(Environment.CurrentDirectory, $"Display_{now}.png");
-            _driver!.GetScreenshot().SaveAsFile(screenshotPath);
+                var now = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss-fff");
+                var screenshotPath = Path.Combine(Environment.CurrentDirectory, $"Display_{now}.png");
+                _driver!.GetScreenshot().SaveAsFile(screenshotPath);
 
-            return screenshotPath;
-        }
+                return screenshotPath;
+            }
 
             public static bool IsFileDownloaded(string fileName, IWebDriver driver)
         {
@@ -39,5 +39,5 @@ namespace CoreLayer
                 }
             });
         }
-    } 
+    }
 }

@@ -1,5 +1,6 @@
 using BusinessLayer.PageObjects;
 using OpenQA.Selenium;
+using RestSharp;
 using System.Collections.ObjectModel;
 using static CoreLayer.BrowserUtils;
 
