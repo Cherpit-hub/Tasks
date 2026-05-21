@@ -1,64 +1,44 @@
-For this practical task, Selenium WebDriver and any preferred by you unit test framework (NUnit, MSTest or xUnit) should be used. 
-Basic WebDriver features as browser interactions, capabilities and features browser specifics, explicit and implicit waits should be used. 
-Read website URL from config file as a property. Enlarge the window. Use basic commands that can be executed on an element (at least click, sendKeys, clear). 
-The solution should contain only one class with several test methods. The following locators MUST be used at least once:
-• ID locator
-• Name locator
-• ClassName locator
-• TagName locator
-• LinkText locator
-• PartialLinkText locator
-• CSS locator (if possible, use pseudo-classes)
-• XPath locator (Relative path)
-• XPath locator with any operator
-• XPath locator with axes
-Test tasks
-Precondition: Execute tests cases manually before creating automated tests. Make all tests parameterized to practice Data Driven approach
+Please use RestSharp library for creating API automated tests. 
 
 
-Task #1. Validate that user can search for a position based on criteria
-Create a Chrome instance. · Navigate to https://www.epam.com/
-Find a link “Carriers” and click on it
-On the Careers page, click “Start your search here”
-Enter any programming language name in the field “Search by Role or Keyword” (should be taken from test parameter)
-Select a value in “Choose your country” field (should be taken from test parameter)
-Select option “Remote”
-Click on the button “Search”
-Find the latest element in the list of results
-Expand the element and validate that programming language from search is present
-Close the browser
+Update TAF adding an opportunity to support API testing:
+Update Core layer with the base client. 
+Update Business layer with necessary business models.
+Tests’ layer should contain the implemented API tests (listed below).
 
 
 
-Task #2. Validate global search works as expected
-Create a Chrome instance. 
-Navigate to https://www.epam.com/
-Find a magnifier icon and click on it
-Find a search string and put there “BLOCKCHAIN”/”Cloud”/”Automation” (use as a parameter for a test)
-Click “Find” button
-Validate that all links in a list contain a word “BLOCKCHAIN”/”Cloud”/”Automation” in the text. LINQ should be used.
-Close the browser
+The solution should contain only one class with several test methods for API testing.  All tests should support parallelization mechanism.
+Use Builder Design Pattern to construct complex requests step by step.
+Logging should be implemented (NLog, log4net or Serilog) for API part of TAF as well. Each test should generate logs from what should be clear test actions. TAF should support logging to both, file and console, and opportunity to use different logging levels (Error, Info, etc.). Min log level should be configurable via TAF configuration. All implemented below tests should be marked with “API” test category.
+
+
+Tasks #1. Validate that the list of users can be received successfully
+Create and send request to https://jsonplaceholder.typicode.com/usersusing GET method
+Validate that user recives a list of users with the following information: "id",  "name", "username", "email", "address”,     "phone",   "website",  "company";
+Validate that user receives 200 OK response code. There are no error messages;
 
 
 
-Tasks #1 & #2:
-Refactor tasks created for previous module to use PageObject pattern to abstract any page information away from the actual.
-Precondition: Execute tests cases manually before creating automated tests. Make all tests parameterized to practice Data Driven approach.
+Tasks #2. Validate response header for a list of users 
+Create and send request to https://jsonplaceholder.typicode.com/usersusing GET method.
+Validate content-type header exists in the obtained response.
+The value of the content-type header is application/json; charset=utf-8.
+Validate that user receives 200 OK response code. There are no error messages.
 
+Tasks #3. Validate response header for a list of users 
+Create and send request to https://jsonplaceholder.typicode.com/usersusing GET method. 
+Validate that the content of the response body is the array of 10 users.
+Validate that each user should be with different ID.
+Validate that each user should be with non-empty Name and Username.
+Validate that each user contains the Company with non-empty Name Validate that user receives 200 OK response code. There are no error messages.
 
-Task #3. Validate file download function works as expected:
-Create a Chrome instance 2. Navigate to https://www.epam.com/
-Scroll down to the page footer
-Click on “Code of Ethical Conduct (PDF)” in “Policies” section
-Wait till file is downloaded
-Validate that file “Code-Of-Conduct_01_26.pdf” downloaded (use name of the file as a parameter)
-Close the browser
+Tasks #4. Validate that user can be created
+Create and send request to https://jsonplaceholder.typicode.com/usersusing POST method with Name and Username fields 
+Validate that response is not empty and contains the ID value
+Validate that user receives 201 Created response code. There are no error messages
 
-Task #4. Validate title of the article matches with title in carousel:
-Create a Chrome instance 2. Navigate to https://www.epam.com/
-Select “Insights” from the top menu
-Swipe a carousel two or more times
-Note the name of article
-Click on “Read More” (or similar) button
-Validate that the name of article matches with the noted above
-Close the browsers.
+Tasks #5. Validate that user is notified if resource doesn’t exist
+Create and send a request to https://jsonplaceholder.typicode.com/invalidendpoint using GET method.
+Validate that user receives 404 Not Found response code. There are no error messages.  
+
