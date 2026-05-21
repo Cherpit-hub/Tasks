@@ -15,15 +15,14 @@ namespace CoreLayer.Webdriver
                         var service = ChromeDriverService.CreateDefaultService();
                         var options = new ChromeOptions();
                         options.AddArgument("--start-maximized");
-                        options.AddArgument("--incognito");
                         options.AddArgument("--headless");
                         return new ChromeDriver(service, options);
                     }
                 case "firefox":
                     var firefoxOptions = new FirefoxOptions();
                     firefoxOptions.AddArgument("--start-maximized");
-                    firefoxOptions.AddArgument("--incognito");
                     firefoxOptions.AddArgument("--headless");
+                    firefoxOptions.BinaryLocation = "/usr/local/share/gecko_driver";
                     return new FirefoxDriver(firefoxOptions);
                 default:
                     throw new ArgumentException("Unknown browser type: " + browserType);
